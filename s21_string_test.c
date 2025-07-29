@@ -5,6 +5,7 @@
 void s21_strlen_test(char *str);
 void s21_strcmp_test(char *str1, char *str2);
 void s21_strcpy_test(char *str1, const char *str2);
+void s21_strcat_test(char *str1, const char *str2);
 
 int main() {
   
@@ -26,10 +27,11 @@ int main() {
     s21_strcpy_test(str1, str2);
 #endif
 
-/*#ifdef S21_STRCAT_TEST
-  char *str2 = 0;
-  s21_strcat_test(str, str2);
-#endif*/
+#ifdef S21_STRCAT_TEST
+    char *str1 = 0;
+    const char *str2 = 0;
+  s21_strcat_test(str1, str2);
+#endif
 
 
 
@@ -151,15 +153,75 @@ void s21_strcpy_test(char *str1, const char *str2) {
 }
 #endif
 
-/*#ifdef S21_STRCAT_TEST
-void s21_strcat_test(char *str1, char *str2) {
-    char *str1 = malloc(3);
-    const char *restrict str2 = "World";
-
-    if (s21_strcpy(str1, str2) == NULL) {
+#ifdef S21_STRCAT_TEST
+void s21_strcat_test(char *str1, const char *str2) {
+    
+    str1 = s21_strcpy(NULL, "Hello");
+    str2 = "World";
+    printf("Test 1: str1 = '%s', str2 = '%s'\n", str1, str2);
+    printf("Ожидаем: HelloWorld\n");
+    char *str = s21_strcat(str1, str2);
+    char *real_word = "HelloWorld";
+    size_t len = s21_strlen(real_word);
+    size_t check = 0;
+    for (size_t i = 0; i < len; i++) {
+        if (str[i] == real_word[i])
+            check++;
+    }
+    if (check == len)
+        printf("SUCCESS\n");
+    else
         printf("FAIL\n");
-        free(str1);
-    } else printf("SUCCESS\n");
+
+    str1 = "";
+    str2 = "World";
+    printf("Test 1: str1 = '%s', str2 = '%s'\n", str1, str2);
+    printf("Ожидаем: World\n");
+    str = s21_strcat(str1, str2);
+    real_word = "World";
+    len = s21_strlen(real_word);
+    check = 0;
+    for (size_t i = 0; i < len; i++) {
+        if (str[i] == real_word[i])
+            check++;
+    }
+    if (check == len)
+        printf("SUCCESS\n");
+    else
+        printf("FAIL\n");
+
+    str1 = s21_strcpy(NULL, "Hello");
+    str2 = "";
+    printf("Test 1: str1 = '%s', str2 = '%s'\n", str1, str2);
+    printf("Ожидаем: Hello\n");
+    str = s21_strcat(str1, str2);
+    real_word = "Hello";
+    len = s21_strlen(real_word);
+    check = 0;
+    for (size_t i = 0; i < len; i++) {
+        if (str[i] == real_word[i])
+            check++;
+    }
+    if (check == len)
+        printf("SUCCESS\n");
+    else
+        printf("FAIL\n");
+
+    str1 = "";
+    str2 = "";
+    printf("Test 1: str1 = '%s', str2 = '%s'\n", str1, str2);
+    printf("Ожидаем: пустую строку\n");
+    str = s21_strcat(str1, str2);
+    real_word = "";
+    len = s21_strlen(real_word);
+    check = 0;
+    for (size_t i = 0; i < len; i++) {
+        if (str[i] == real_word[i])
+            check++;
+    }
+    if (check == len)
+        printf("SUCCESS\n");
+    else
+        printf("FAIL\n");
 }
 #endif
-*/
